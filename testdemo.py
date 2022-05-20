@@ -20,6 +20,7 @@ def get_parser():
     parser = argparse.ArgumentParser(description='PyTorch Semantic Segmentation')
     parser.add_argument('--config', type=str, default='config/ade20k/ade20k_pspnet50.yaml', help='config file')
     parser.add_argument('--image', type=str, default='figure/demo/ADE_val_00001515.jpg', help='input image')
+    parser.add_argument('--image_dir', type=str, default='/content/images', help='input image dir')
     parser.add_argument('opts', help='see config/ade20k/ade20k_pspnet50.yaml for all options', default=None, nargs=argparse.REMAINDER)
     args = parser.parse_args()
     assert args.config is not None
@@ -100,7 +101,14 @@ def main():
         logger.info("=> loaded checkpoint '{}'".format(args.model_path))
     else:
         raise RuntimeError("=> no checkpoint found at '{}'".format(args.model_path))
-    test(model.eval(), args.image, args.classes, mean, std, args.base_size, args.test_h, args.test_w, args.scales, colors)
+    directory_origin = args.image_dir
+    origin = []
+    for picture_name in os.listdir(directory_origin):
+        file_name = directory_origin + "/" + picture_name
+        origin.append(file_name)
+        pic_names.append(picture_name)
+    for path in origin:
+        test(model.eval(), path , args.classes, mean, std, args.base_size, args.test_h, args.test_w, args.scales, colors)
 
 
 def net_process(model, image, mean, std=None, flip=True):
@@ -183,8 +191,7 @@ def test(model, image_path, classes, mean, std, base_size, crop_h, crop_w, scale
     color = colorize(gray, colors)
     image_name = image_path.split('/')[-1].split('.')[0]
     gray_path = os.path.join('./figure/demo/', image_name + '_gray.png')
-    color_path = os.path.join('./figure/demo/', image_name + '_color.png')
-    cv2.imwrite(gray_path, gray)
+    color_path = os.path.join('./figure/demo/', image_name + '.png')
     color.save(color_path)
     logger.info("=> Prediction saved in {}".format(color_path))
 
