@@ -188,6 +188,7 @@ def test(model, image_path, classes, mean, std, base_size, crop_h, crop_w, scale
         prediction += scale_process(model, image_scale, classes, crop_h, crop_w, h, w, mean, std)
     prediction = scale_process(model, image_scale, classes, crop_h, crop_w, h, w, mean, std)
     prediction = np.argmax(prediction, axis=2)
+    gray = np.uint8(prediction)
     color = colorize(gray, colors)
     image_name = image_path.split('/')[-1].split('.')[0]
     color_path = os.path.join('./out/', image_name + '.png')
