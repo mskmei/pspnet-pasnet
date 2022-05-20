@@ -100,6 +100,9 @@ def main():
         logger.info("=> loaded checkpoint '{}'".format(args.model_path))
     else:
         raise RuntimeError("=> no checkpoint found at '{}'".format(args.model_path))
+    if os.path.isdir('out'):
+        shutil.rmtree('out')
+        os.makedirs('out', exist_ok=True)
     directory_origin = args.image
     origin = []
     for picture_name in os.listdir(directory_origin):
@@ -187,7 +190,7 @@ def test(model, image_path, classes, mean, std, base_size, crop_h, crop_w, scale
     prediction = np.argmax(prediction, axis=2)
     color = colorize(gray, colors)
     image_name = image_path.split('/')[-1].split('.')[0]
-    color_path = os.path.join('/content/out/', image_name + '.png')
+    color_path = os.path.join('./out/', image_name + '.png')
     color.save(color_path)
     logger.info("=> Prediction saved in {}".format(color_path))
 
