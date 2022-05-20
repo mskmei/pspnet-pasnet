@@ -100,9 +100,7 @@ def main():
         logger.info("=> loaded checkpoint '{}'".format(args.model_path))
     else:
         raise RuntimeError("=> no checkpoint found at '{}'".format(args.model_path))
-    if os.path.isdir('out'):
-        shutil.rmtree('out')
-        os.makedirs('out', exist_ok=True)
+    os.makedirs('out', exist_ok=True)
     directory_origin = args.image
     origin = []
     for picture_name in os.listdir(directory_origin):
