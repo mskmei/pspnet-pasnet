@@ -20,7 +20,6 @@ def get_parser():
     parser = argparse.ArgumentParser(description='PyTorch Semantic Segmentation')
     parser.add_argument('--config', type=str, default='config/ade20k/ade20k_pspnet50.yaml', help='config file')
     parser.add_argument('--image', type=str, default='figure/demo/ADE_val_00001515.jpg', help='input image')
-    parser.add_argument('--image_dir', type=str, default='/content/images', help='input image dir')
     parser.add_argument('opts', help='see config/ade20k/ade20k_pspnet50.yaml for all options', default=None, nargs=argparse.REMAINDER)
     args = parser.parse_args()
     assert args.config is not None
@@ -101,7 +100,7 @@ def main():
         logger.info("=> loaded checkpoint '{}'".format(args.model_path))
     else:
         raise RuntimeError("=> no checkpoint found at '{}'".format(args.model_path))
-    directory_origin = args.image_dir
+    directory_origin = args.image
     origin = []
     for picture_name in os.listdir(directory_origin):
         file_name = directory_origin + "/" + picture_name
