@@ -105,7 +105,6 @@ def main():
     for picture_name in os.listdir(directory_origin):
         file_name = directory_origin + "/" + picture_name
         origin.append(file_name)
-        pic_names.append(picture_name)
     for path in origin:
         test(model.eval(), path , args.classes, mean, std, args.base_size, args.test_h, args.test_w, args.scales, colors)
 
